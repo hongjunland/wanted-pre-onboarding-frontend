@@ -1,18 +1,20 @@
 import styled from "@emotion/styled";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SigninPage() {
+    const navigate = useNavigate();
     const handleSubmit = (e: React.SyntheticEvent)=>{
         e.preventDefault();
         console.log('signin');
+        navigate('/todo');
     }
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
         <HeadLine>로그인</HeadLine>
-        <SigninInput type="email" data-testid="email-input" />
-        <SigninInput type="password" data-testid="password-input" />
-        <SigninButton type="submit" data-testid="signup-button">
+        <Input type="email" data-testid="email-input" />
+        <Input type="password" data-testid="password-input" />
+        <SigninButton type="submit" data-testid="signin-button">
           로그인
         </SigninButton>
         <span>
@@ -45,7 +47,7 @@ const Form = styled.form`
     font-weight: bold;
   }
 `;
-const SigninInput = styled.input`
+const Input = styled.input`
   width: 450px;
   height: 40px;
   margin-top: 1rem;
