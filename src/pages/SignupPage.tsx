@@ -3,20 +3,53 @@ import { useNavigate } from "react-router-dom";
 import FormInput from "../components/common/FormInput";
 import FormButton from "../components/common/FormButton";
 import Form from "../components/common/Form";
+import { useState } from "react";
+import SignForm from "../types/SignForm";
+import { isSignFormat } from "../utils/signUtils";
 
 function SignupPage() {
+  const [signinFormState, setSigninFormState] = useState<SignForm>({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log("signin");
-    navigate('/signin');
+    navigate("/signin");
+  };
+  const handleFormStateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    switch (e.target.name) {
+      case "email":
+        setSigninFormState({ ...signinFormState, email: e.target.value });
+        break;
+      case "password":
+        setSigninFormState({ ...signinFormState, password: e.target.value });
+        break;
+    }
   };
   return (
     <Container>
       <Form onSubmit={handleSubmit} title="회원가입">
-        <FormInput type="email" data-testid="email-input" />
-        <FormInput type="password" data-testid="password-input" />
-        <SignupFormButton type="submit" data-testid="signup-button">
+        <FormInput
+          type="email"
+          data-testid="email-input"
+          name="email"
+          value={signinFormState.email}
+          onChange={handleFormStateChange}
+        />
+        <FormInput
+          type="password"
+          name="password"
+          data-testid="password-input"
+          value={signinFormState.password}
+          onChange={handleFormStateChange}
+        />
+        <SignupFormButton
+          type="submit"
+          data-testid="signup-button"
+          disabled={!isSignFormat(signinFormState)}
+        >
           회원가입
         </SignupFormButton>
       </Form>
@@ -32,7 +65,6 @@ const Container = styled.div`
   margin: auto auto;
   justify-content: center;
 `;
-
 
 const SignupFormButton = styled(FormButton)`
   background-color: #111;

@@ -3,20 +3,52 @@ import { Link, useNavigate } from "react-router-dom";
 import Form from "../components/common/Form";
 import FormInput from "../components/common/FormInput";
 import FormButton from "../components/common/FormButton";
-
+import { useState } from "react";
+import SignForm from "../types/SignForm";
+import { isSignFormat } from "../utils/signUtils";
 function SigninPage() {
+  const [signinFormState, setSigninFormState] = useState<SignForm>({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log("signin");
     navigate("/todo");
   };
+  const handleFormStateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    switch (e.target.name) {
+      case "email":
+        setSigninFormState({ ...signinFormState, email: e.target.value });
+        break;
+      case "password":
+        setSigninFormState({ ...signinFormState, password: e.target.value });
+        break;
+    }
+  };
   return (
     <Container>
       <Form onSubmit={handleSubmit} title="로그인">
-        <FormInput type="email" data-testid="email-input" />
-        <FormInput type="password" data-testid="password-input" />
-        <SigninFormButton type="submit" data-testid="signin-button">
+        <FormInput
+          type="email"
+          data-testid="email-input"
+          name="email"
+          value={signinFormState.email}
+          onChange={handleFormStateChange}
+        />
+        <FormInput
+          type="password"
+          name="password"
+          data-testid="password-input"
+          value={signinFormState.password}
+          onChange={handleFormStateChange}
+        />
+        <SigninFormButton
+          type="submit"
+          data-testid="signin-button"
+          disabled={!isSignFormat(signinFormState)}
+        >
           로그인
         </SigninFormButton>
         <SignupSpan>

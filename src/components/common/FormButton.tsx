@@ -2,11 +2,12 @@ import styled from "@emotion/styled";
 interface FormButtonProps {
   children: React.ReactNode;
   type: 'button'|'submit'|'reset';
+  disabled?: boolean;
   onClick?: ()=>void
 }
-function FormButton({ children, type, onClick, ...rest }: FormButtonProps) {
+function FormButton({ children, type, disabled, onClick, ...rest }: FormButtonProps) {
   return (
-    <StyledButton type={type} onClick={onClick} {...rest}>
+    <StyledButton type={type} onClick={onClick} disabled={disabled} {...rest}>
       {children}
     </StyledButton>
   );
@@ -19,5 +20,8 @@ const StyledButton = styled.button`
   background-color: #111;
   color: white;
   font-weight: bold;
+  &:disabled{
+    background-color: #888;
+  }
 `;
 export default FormButton;
