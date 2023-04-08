@@ -6,6 +6,7 @@ import Form from "../components/common/Form";
 import { useState } from "react";
 import SignForm from "../types/SignForm";
 import { isSignFormat } from "../utils/signUtils";
+import { authAPI } from "../apis/authAPI";
 
 function SignupPage() {
   const [signinFormState, setSigninFormState] = useState<SignForm>({
@@ -13,10 +14,12 @@ function SignupPage() {
     password: "",
   });
   const navigate = useNavigate();
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async(e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log("signin");
-    navigate("/signin");
+    const response = await authAPI.signupWithEmailandPassword(signinFormState);
+    console.log(response);
+    if(response) navigate("/signin");
   };
   const handleFormStateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
