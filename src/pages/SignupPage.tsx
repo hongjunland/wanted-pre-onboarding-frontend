@@ -1,5 +1,8 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
+import FormInput from "../components/common/FormInput";
+import FormButton from "../components/common/FormButton";
+import Form from "../components/common/Form";
 
 function SignupPage() {
   const navigate = useNavigate();
@@ -10,13 +13,12 @@ function SignupPage() {
   };
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
-        <HeadLine>회원가입</HeadLine>
-        <Input type="email" data-testid="email-input" />
-        <Input type="password" data-testid="password-input" />
-        <SignupButton type="submit" data-testid="signup-button">
+      <Form onSubmit={handleSubmit} title="회원가입">
+        <FormInput type="email" data-testid="email-input" />
+        <FormInput type="password" data-testid="password-input" />
+        <SignupFormButton type="submit" data-testid="signup-button">
           회원가입
-        </SignupButton>
+        </SignupFormButton>
       </Form>
     </Container>
   );
@@ -30,35 +32,10 @@ const Container = styled.div`
   margin: auto auto;
   justify-content: center;
 `;
-const HeadLine = styled.h1`
-  text-align: center;
-`;
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: auto auto;
-  text-align: center;
-  a {
-    color: blue;
-    text-decoration: none;
-    font-weight: bold;
-  }
-`;
-const Input = styled.input`
-  width: 450px;
-  height: 40px;
-  margin-top: 1rem;
-  border: 1px solid;
-  background-color: white;
-`;
-const SignupButton = styled.button`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  width: 450px;
-  height: 40px;
+
+
+const SignupFormButton = styled(FormButton)`
   background-color: #111;
-  color: white;
-  font-weight: bold;
 `;
+
 export default SignupPage;
