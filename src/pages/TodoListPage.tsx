@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import Todo from "../types/Todo";
+import { Todo, TodoCreateRequest } from "../types/Todo";
 import {
   Dispatch,
   SetStateAction,
@@ -11,14 +11,13 @@ import {
 import AuthContext from "../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { todoAPI } from "../apis/todoAPI";
-import { TodoCreateFormData } from "../apis/types";
 import { getAccessToken } from "../utils/authUtils";
 
 function TodoListPage() {
   const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
   const [todoListchanged, setTodoListchanged] = useState(false);
   const [todoList, setTodoList] = useState<Todo[]>([]);
-  const [todoCreateForm, setTodoCreateForm] = useState<TodoCreateFormData>({
+  const [todoCreateForm, setTodoCreateForm] = useState<TodoCreateRequest>({
     todo: "",
   });
   const navigate = useNavigate();

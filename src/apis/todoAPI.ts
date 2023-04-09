@@ -1,13 +1,9 @@
 import instance from ".";
-import Todo from "../types/Todo";
-import {
-  TodoCreateFormData,
-  TodoCreateResponse,
-  TodoUpdateFormData,
-} from "./types";
+import { Todo, TodoCreateRequest, TodoCreateResponse, TodoUpdateRequest } from "../types/Todo";
+
 
 async function createTodo(
-  todoCreateFormData: TodoCreateFormData
+  todoCreateFormData: TodoCreateRequest
 ): Promise<TodoCreateResponse> {
   const response = await instance.post("/todos", todoCreateFormData);
   console.log(response.data);
@@ -28,7 +24,7 @@ async function deleteTodo(id: string): Promise<boolean> {
   return false;
 }
 async function updateTodo(newTodo: Todo): Promise<Todo> {
-  const formData: TodoUpdateFormData = {
+  const formData: TodoUpdateRequest = {
     todo: newTodo.todo,
     isCompleted: newTodo.isCompleted,
   };

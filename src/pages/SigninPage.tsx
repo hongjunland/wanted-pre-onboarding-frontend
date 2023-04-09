@@ -2,13 +2,13 @@ import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../components/Sign/Form";
 import { useContext, useEffect, useState } from "react";
-import SignForm from "../types/SignForm";
 import { isSignFormat } from "../utils/signUtils";
-import { getAccessToken, setAccessToken } from "../utils/authUtils";
+import { setAccessToken } from "../utils/authUtils";
 import { authAPI } from "../apis/authAPI";
 import AuthContext from "../auth/AuthContext";
 import FormInput from "../components/Sign/FormInput";
 import FormButton from "../components/Sign/FormButton";
+import { SignForm } from "../types/SignForm";
 function SigninPage() {
   const [signinFormState, setSigninFormState] = useState<SignForm>({
     email: "",

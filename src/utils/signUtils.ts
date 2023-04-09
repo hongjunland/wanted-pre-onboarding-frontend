@@ -1,4 +1,4 @@
-import SignForm from "../types/SignForm";
+import { SignForm } from "../types/SignForm";
 
 export function isEmailFormat(email?: string) {
   if (email?.includes("@")) return true;
