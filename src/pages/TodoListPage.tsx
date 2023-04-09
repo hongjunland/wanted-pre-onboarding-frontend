@@ -14,14 +14,11 @@ function TodoListPage() {
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const navigate = useNavigate();
   const fetchTodos = useCallback(async () => {
-    try {
-      const newTodoList = await todoAPI.getTodos();
-      setTodoList(newTodoList);
-      setTodoListchanged(false);
-    } catch (error: any) {
-      navigate("/signin");
-    }
-  }, [navigate]);
+    const newTodoList = await todoAPI.getTodos();
+    setTodoList(newTodoList);
+    setTodoListchanged(false);
+  }, []);
+
   useEffect(() => {
     fetchTodos();
   }, [todoListchanged, fetchTodos]);
