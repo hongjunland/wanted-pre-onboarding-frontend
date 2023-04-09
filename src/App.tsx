@@ -6,6 +6,7 @@ import TodoListPage from "./pages/TodoListPage";
 import AuthContext from "./auth/AuthContext";
 import { useEffect, useState } from "react";
 import { getAccessToken } from "./utils/authUtils";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   const [init, setInit] = useState(false);
@@ -27,6 +28,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/todo" element={<TodoListPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </AuthContext.Provider>
