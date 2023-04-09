@@ -1,6 +1,14 @@
 import styled from "@emotion/styled";
 import Todo from "../types/Todo";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import AuthContext from "../auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { todoAPI } from "../apis/todoAPI";
@@ -28,6 +36,7 @@ function TodoListPage() {
   }, [todoCreateForm]);
 
   useEffect(() => {
+    console.log(isLoggedIn);
     if (!isLoggedIn) {
       if (getAccessToken()) {
         setLoggedIn(true);
@@ -35,8 +44,9 @@ function TodoListPage() {
         alert("로그인후 사용가능합니다.");
         navigate("/signin");
       }
+    } else {
+      getTodos();
     }
-    getTodos();
   }, [todoListchanged, isLoggedIn, navigate, setLoggedIn, getTodos]);
 
   return (
@@ -57,7 +67,7 @@ function TodoListPage() {
           추가
         </TodoCreateButton>
       </div>
-      <TodoList todoList={todoList} />
+      <TodoList todoList={todoList} setTodoListchanged={setTodoListchanged} />
     </Container>
   );
 }
@@ -75,30 +85,43 @@ const TodoInput = styled.input``;
 const TodoCreateButton = styled.button``;
 interface TodoListProps {
   todoList: Todo[];
+  setTodoListchanged: Dispatch<SetStateAction<boolean>>;
 }
-function TodoList({ todoList }: TodoListProps) {
+function TodoList({ todoList, setTodoListchanged }: TodoListProps) {
   return (
     <ul>
       {todoList.map((todo: Todo) => (
-        <TodoItem todo={todo} key={todo.id} />
+        <TodoItem
+          todo={todo}
+          key={todo.id}
+          setTodoListchanged={setTodoListchanged}
+        />
       ))}
     </ul>
   );
 }
 interface TodoItemProps {
   todo: Todo;
+  setTodoListchanged: Dispatch<SetStateAction<boolean>>;
 }
-function TodoItem({ todo }: TodoItemProps) {
-  const handleTodoDelete = (e: React.MouseEvent<HTMLButtonElement>)=>{
+function TodoItem({ todo, setTodoListchanged }: TodoItemProps) {
+  const handleTodoDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
     todoAPI.deleteTodo(e.currentTarget.name);
-  }
+    setTodoListchanged(true);
+  };
   return (
     <li>
       <label>
-        <input type="checkbox" checked={todo.isCompleted}/>
+        <input type="checkbox" checked={todo.isCompleted} />
         <span>{todo.todo}</span>
         <TodoButton data-testid="modify-button">수정</TodoButton>
-        <TodoButton data-testid="delete-button" name={`${todo.id}`} onClick={handleTodoDelete}>삭제</TodoButton>
+        <TodoButton
+          data-testid="delete-button"
+          name={`${todo.id}`}
+          onClick={handleTodoDelete}
+        >
+          삭제
+        </TodoButton>
       </label>
     </li>
   );

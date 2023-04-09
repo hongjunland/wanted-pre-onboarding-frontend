@@ -1,13 +1,13 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import FormInput from "../components/common/FormInput";
-import FormButton from "../components/common/FormButton";
-import Form from "../components/common/Form";
 import { useContext, useEffect, useState } from "react";
 import SignForm from "../types/SignForm";
 import { isSignFormat } from "../utils/signUtils";
 import { authAPI } from "../apis/authAPI";
 import AuthContext from "../auth/AuthContext";
+import FormInput from "../components/Sign/FormInput";
+import Form from "../components/Sign/Form";
+import FormButton from "../components/Sign/FormButton";
 
 function SignupPage() {
   const [signinFormState, setSigninFormState] = useState<SignForm>({
