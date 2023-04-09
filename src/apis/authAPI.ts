@@ -1,4 +1,4 @@
-import instance from ".";
+import { instance } from ".";
 import { SignFormData, SignInResponse } from "./types";
 
 async function signinWithEmailandPassword(signinFormData: SignFormData): Promise<SignInResponse>{

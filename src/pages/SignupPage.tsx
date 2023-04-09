@@ -3,16 +3,18 @@ import { useNavigate } from "react-router-dom";
 import FormInput from "../components/common/FormInput";
 import FormButton from "../components/common/FormButton";
 import Form from "../components/common/Form";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SignForm from "../types/SignForm";
 import { isSignFormat } from "../utils/signUtils";
 import { authAPI } from "../apis/authAPI";
+import AuthContext from "../auth/AuthContext";
 
 function SignupPage() {
   const [signinFormState, setSigninFormState] = useState<SignForm>({
     email: "",
     password: "",
   });
+  const { isLoggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const handleSubmit = async(e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -31,6 +33,12 @@ function SignupPage() {
         break;
     }
   };
+  useEffect(() => {
+    if (isLoggedIn) {
+      alert("로그인중입니다!");
+      navigate("/todo");
+    }
+  }, [isLoggedIn, navigate]);
   return (
     <Container>
       <Form onSubmit={handleSubmit} title="회원가입">
