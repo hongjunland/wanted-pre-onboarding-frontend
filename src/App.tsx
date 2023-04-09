@@ -1,25 +1,13 @@
-import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignupPage from "./pages/SignupPage";
 import SigninPage from "./pages/SigninPage";
 import TodoListPage from "./pages/TodoListPage";
 import AuthContext from "./auth/AuthContext";
-import { useEffect, useState } from "react";
-import { getAccessToken } from "./utils/authUtils";
+import { useState } from "react";
 import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  const [init, setInit] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  useEffect(() => {
-    if (!init) {
-      setInit(true);
-      console.log("update app");
-      if (getAccessToken()) {
-        setLoggedIn(true);
-      }
-    }
-  }, [init, isLoggedIn]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setLoggedIn }}>

@@ -1,42 +1,27 @@
 import styled from "@emotion/styled";
 import { Link, useNavigate } from "react-router-dom";
 import Form from "../components/Sign/Form";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { isSignFormat } from "../utils/signUtils";
-import { setAccessToken } from "../utils/authUtils";
-import { authAPI } from "../apis/authAPI";
 import AuthContext from "../auth/AuthContext";
 import FormInput from "../components/Sign/FormInput";
 import FormButton from "../components/Sign/FormButton";
-import { SignForm } from "../types/SignForm";
+import useSignForm from "../hooks/useSignForm";
 function SigninPage() {
-  const [signinFormState, setSigninFormState] = useState<SignForm>({
+  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const { signForm, onChangeSignForm, onSubmitSignin } = useSignForm({
     email: "",
     password: "",
   });
-  const { isLoggedIn, setLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
   const handleSubmit = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    console.log("signin");
-    const response = await authAPI.signinWithEmailandPassword(signinFormState);
-    setAccessToken(response.access_token);
+    await onSubmitSignin(e);
     setLoggedIn(true);
     navigate("/todo");
   };
-  const handleFormStateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    switch (e.target.name) {
-      case "email":
-        setSigninFormState({ ...signinFormState, email: e.target.value });
-        break;
-      case "password":
-        setSigninFormState({ ...signinFormState, password: e.target.value });
-        break;
-    }
-  };
+
   useEffect(() => {
     if (isLoggedIn) {
-      alert("로그인중입니다!");
       navigate("/todo");
     }
   }, [isLoggedIn, navigate]);
@@ -47,20 +32,20 @@ function SigninPage() {
           type="email"
           data-testid="email-input"
           name="email"
-          value={signinFormState.email}
-          onChange={handleFormStateChange}
+          value={signForm.email}
+          onChange={onChangeSignForm}
         />
         <FormInput
           type="password"
           name="password"
           data-testid="password-input"
-          value={signinFormState.password}
-          onChange={handleFormStateChange}
+          value={signForm.password}
+          onChange={onChangeSignForm}
         />
         <SigninFormButton
           type="submit"
           data-testid="signin-button"
-          disabled={!isSignFormat(signinFormState)}
+          disabled={!isSignFormat(signForm)}
         >
           로그인
         </SigninFormButton>

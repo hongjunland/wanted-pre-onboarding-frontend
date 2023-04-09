@@ -14,29 +14,26 @@ function TodoItem({ todo, setTodoListchanged }: TodoItemProps) {
     await todoAPI.deleteTodo(e.currentTarget.name);
     setTodoListchanged(true);
   };
+
   const handleTodoUpdateWithCheck = async (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(e.currentTarget.checked);
     const newTodo = { ...todo, isCompleted: e.currentTarget.checked };
-    console.log(newTodo);
     await todoAPI.updateTodo(newTodo);
     setTodoListchanged(true);
   };
-  const handleTodoUpdateWithTodo = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+
+  const handleTodoUpdateWithTodo = async () => {
     const newTodo = { ...todo, todo: todoContent };
-    console.log(newTodo);
     await todoAPI.updateTodo(newTodo);
     setIsModifying(false);
     setTodoListchanged(true);
   };
 
   return (
-    <li>
+    <Item>
       <label>
-        <input
+        <Checkbox
           type="checkbox"
           defaultChecked={todo.isCompleted}
           onChange={handleTodoUpdateWithCheck}
@@ -44,7 +41,7 @@ function TodoItem({ todo, setTodoListchanged }: TodoItemProps) {
       </label>
       {isModifying ? (
         <>
-          <input
+          <TodoInput
             type="text"
             value={todoContent}
             onChange={(e) => setTodoContent(e.target.value)}
@@ -64,7 +61,7 @@ function TodoItem({ todo, setTodoListchanged }: TodoItemProps) {
         </>
       ) : (
         <>
-          <span>{todo.todo}</span>
+          <TodoText>{todo.todo}</TodoText>
           <TodoButton
             data-testid="modify-button"
             onClick={() => setIsModifying(true)}
@@ -80,12 +77,30 @@ function TodoItem({ todo, setTodoListchanged }: TodoItemProps) {
       >
         삭제
       </TodoButton>
-    </li>
+    </Item>
   );
 }
+const Item = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+`;
+
+const Checkbox = styled.input`
+  margin-right: 0.5rem;
+`;
+
+const TodoText = styled.span`
+  flex-grow: 1;
+`;
+
+const TodoInput = styled.input`
+  flex-grow: 1;
+  margin-right: 0.5rem;
+`;
+
 const TodoButton = styled.button`
-  margin-right: 1rem;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
 `;
 
 export default TodoItem;
