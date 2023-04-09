@@ -1,8 +1,8 @@
 import axios from "axios";
 import { getAccessToken } from "../utils/authUtils";
 
-// const BASE_URL = "https://www.pre-onboarding-selection-task.shop/";
-const BASE_URL = "http://localhost:8000/";
+const BASE_URL = "https://www.pre-onboarding-selection-task.shop/";
+// const BASE_URL = "http://localhost:8000/";
 
 const instance = axios.create({
   baseURL: BASE_URL,
