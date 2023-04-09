@@ -13,14 +13,22 @@ function TodoListPage() {
   const [todoListchanged, setTodoListchanged] = useState(false);
   const [todoList, setTodoList] = useState<Todo[]>([]);
   const navigate = useNavigate();
-  const getTodos = useCallback(async () => {
-    const newTodoList = await todoAPI.getTodos();
-    setTodoList(newTodoList);
-    setTodoListchanged(false);
-  }, []);
+  const fetchTodos = useCallback(async () => {
+    try {
+      const newTodoList = await todoAPI.getTodos();
+      setTodoList(newTodoList);
+      setTodoListchanged(false);
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        navigate("/signin");
+      } else {
+        console.error(error);
+      }
+    }
+  }, [navigate]);
   useEffect(() => {
-    getTodos();
-  }, [todoListchanged, getTodos]);
+    fetchTodos();
+  }, [todoListchanged, fetchTodos]);
   useEffect(() => {
     console.log(isLoggedIn);
     if (!isLoggedIn) {

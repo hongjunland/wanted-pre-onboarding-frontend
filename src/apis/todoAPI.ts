@@ -1,6 +1,10 @@
 import instance from ".";
-import { Todo, TodoCreateRequest, TodoCreateResponse, TodoUpdateRequest } from "../types/Todo";
-
+import {
+  Todo,
+  TodoCreateRequest,
+  TodoCreateResponse,
+  TodoUpdateRequest,
+} from "../types/Todo";
 
 async function createTodo(
   todoCreateFormData: TodoCreateRequest
@@ -11,9 +15,14 @@ async function createTodo(
 }
 
 async function getTodos(): Promise<Todo[]> {
-  const response = await instance.get("/todos");
-  console.log(response);
-  return response.data;
+  try {
+    const response = await instance.get("/todos");
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 }
 async function deleteTodo(id: string): Promise<boolean> {
   const response = await instance.delete(`/todos/${id}`);
