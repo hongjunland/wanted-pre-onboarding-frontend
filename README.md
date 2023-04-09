@@ -12,6 +12,6 @@ npm start
 https://wanted-pre-onboarding-frontend-nu-orcin.vercel.app/signin
 
 
-# 2. 데모 영상(배포 링크)
+# 2. 배포 링크
 
 https://wanted-pre-onboarding-frontend-nu-orcin.vercel.app/
