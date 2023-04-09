@@ -15,3 +15,7 @@ export interface TodoCreateResponse{
     isCompleted: boolean;
     userId: number;
 }
+export interface TodoUpdateFormData{
+    todo: string;
+    isCompleted: boolean;
+}

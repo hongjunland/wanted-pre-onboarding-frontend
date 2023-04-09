@@ -1,6 +1,10 @@
 import instance from ".";
 import Todo from "../types/Todo";
-import { TodoCreateFormData, TodoCreateResponse } from "./types";
+import {
+  TodoCreateFormData,
+  TodoCreateResponse,
+  TodoUpdateFormData,
+} from "./types";
 
 async function createTodo(
   todoCreateFormData: TodoCreateFormData
@@ -11,12 +15,10 @@ async function createTodo(
 }
 
 async function getTodos(): Promise<Todo[]> {
-  // Authorization: `Bearer ${getAccessToken()}`
   const response = await instance.get("/todos");
   console.log(response);
   return response.data;
 }
-
 async function deleteTodo(id: string): Promise<boolean> {
   const response = await instance.delete(`/todos/${id}`);
   console.log(response.data);
@@ -25,5 +27,13 @@ async function deleteTodo(id: string): Promise<boolean> {
   }
   return false;
 }
+async function updateTodo(newTodo: Todo): Promise<Todo> {
+  const formData: TodoUpdateFormData = {
+    todo: newTodo.todo,
+    isCompleted: newTodo.isCompleted,
+  };
+  const response = await instance.put(`/todos/${newTodo.id}`, formData);
+  return response.data;
+}
 
-export const todoAPI = { createTodo, getTodos, deleteTodo };
+export const todoAPI = { createTodo, getTodos, deleteTodo, updateTodo };
