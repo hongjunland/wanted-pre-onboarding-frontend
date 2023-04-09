@@ -19,11 +19,7 @@ function TodoListPage() {
       setTodoList(newTodoList);
       setTodoListchanged(false);
     } catch (error: any) {
-      if (error.response.status === 401) {
-        navigate("/signin");
-      } else {
-        console.error(error);
-      }
+      navigate("/signin");
     }
   }, [navigate]);
   useEffect(() => {
